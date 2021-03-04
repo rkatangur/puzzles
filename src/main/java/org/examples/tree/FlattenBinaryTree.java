@@ -1,5 +1,7 @@
 package org.examples.tree;
 
+import java.util.Stack;
+
 /**
  * 
  * 
@@ -8,7 +10,7 @@ package org.examples.tree;
  * @author rkata
  *
  */
-public class FlattenBinarySearchTree {
+public class FlattenBinaryTree {
 
 	public void flatten(TreeNode node) {
 		flattenHelper(node);
@@ -35,8 +37,21 @@ public class FlattenBinarySearchTree {
 		return (rightNodeTail == null) ? leftNodeTail : rightNodeTail;
 	}
 
+
+
 	public static void main(String[] args) {
-		FlattenBinarySearchTree solver = new FlattenBinarySearchTree();
+
+//		TreeNode right2Node = new TreeNode(2);
+//		right2Node.left = new TreeNode(3);
+//
+//		TreeNode root = new TreeNode(1);
+//		root.left = null;
+//		root.right = right2Node;
+//
+		FlattenBinaryTree solver = new FlattenBinaryTree();
+//
+//		Stack<TreeNode> nodesToProcess = new Stack<TreeNode>();
+//		solver.flatten(root, nodesToProcess);
 
 		TreeNode left2Node = new TreeNode(2);
 		left2Node.left = new TreeNode(3);
