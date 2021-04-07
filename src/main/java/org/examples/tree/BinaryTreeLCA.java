@@ -1,11 +1,8 @@
 package org.examples.tree;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /*			
  			1	
@@ -31,124 +28,6 @@ import java.util.Map;
  *
  */
 public class BinaryTreeLCA {
-//	
-//	regions = [["Earth","North America","South America"],
-//	           ["North America","United States","Canada"],
-//	           ["United States","New York","Boston"],
-//	           ["Canada","Ontario","Quebec"],
-//	           ["South America","Brazil"]],
-//	           region1 = "Quebec",
-//	           region2 = "New York"
-	
-	[["tQvrH","QG","ZcyyW","TTHy"],["QG","uzBJT","iM","fHC","iJ","Uc"],["ZcyyW","rw"],["TTHy","RHY","dL","we","s"],["RHY","WsJi","lQmkd","WIaw"],["dL","dKC","XSoQ"],["dKC","vwg"],["rw","wTRE","GHhXN","bq"],["wTRE","rEr","LO","mn","x","QJ"],["uzBJT","DKhq"],["XSoQ","qGUn"],["WsJi","wJIR","JSZ","V"],["GHhXN","B"],["iM","umVT","m"],["fHC","fHYsT","n"],["umVT","W"],["B","tScvQ"],["DKhq","CjbVa"],["JSZ","sjZWd"],["sjZWd","Yo","y"],["rEr","dnzXI"],["LO","M"],["lQmkd","SPvwQ"],["Yo","ArrX"],["M","b"],["W","S"]]
-//			"V"
-//			"WIaw"
-
-
-	public static void main(String[] args) {
-		List<List<String>> regionsList = new ArrayList<List<String>>();
-//		regionsList.add(Arrays.asList("Earth", "North America", "South America"));
-//		regionsList.add(Arrays.asList("North America", "United States", "Canada"));
-//		regionsList.add(Arrays.asList("United States", "New York", "Boston"));
-//		regionsList.add(Arrays.asList("Canada", "Ontario", "Quebec"));
-//		regionsList.add(Arrays.asList("South America", "Brazil"));
-		
-		regionsList.add(Arrays.asList("tQvrH","QG","ZcyyW","TTHy"));
-		regionsList.add(Arrays.asList("QG","uzBJT","iM","fHC","iJ","Uc"));
-		pop("ZcyyW","rw");
-		,["TTHy","RHY","dL","we","s"],["RHY","WsJi","lQmkd","WIaw"],["dL","dKC","XSoQ"],["dKC","vwg"],["rw","wTRE","GHhXN","bq"],["wTRE","rEr","LO","mn","x","QJ"],["uzBJT","DKhq"],["XSoQ","qGUn"],["WsJi","wJIR","JSZ","V"],["GHhXN","B"],["iM","umVT","m"],["fHC","fHYsT","n"],["umVT","W"],["B","tScvQ"],["DKhq","CjbVa"],["JSZ","sjZWd"],["sjZWd","Yo","y"],["rEr","dnzXI"],["LO","M"],["lQmkd","SPvwQ"],["Yo","ArrX"],["M","b"],["W","S"]
-
-		BinaryTreeLCA solver = new BinaryTreeLCA();
-		System.out.println(solver.findSmallestRegion(regionsList, "Canada", "Brazil"));
-	}
-
-	public String findSmallestRegion(List<List<String>> regions, String region1, String region2) {
-		TreeNode rootNode = buildTree(regions);
-		TreeNode lcaNode = findLCA(rootNode, region1, region2);
-		return lcaNode.val;
-	}
-
-	public TreeNode findLCA(TreeNode rootNode, String region1, String region2) {
-
-		if (rootNode == null) {
-			return null;
-		}
-
-		if (rootNode.val.equals(region1) || rootNode.val.equals(region2)) {
-			return rootNode;
-		}
-
-		TreeNode leftNode = findLCA(rootNode.left, region1, region2);
-		TreeNode rightNode = findLCA(rootNode.right, region1, region2);
-
-		if (leftNode != null && rightNode != null) {
-			return rootNode;
-		}
-		
-		if (leftNode != null) {
-			return leftNode;
-		} else {
-			return rightNode;
-		}
-	}
-
-	public TreeNode buildTree(List<List<String>> regions) {
-		Map<String, TreeNode> nodesMap = new HashMap<>();
-		TreeNode rootNode = null;
-		for (List<String> region : regions) {
-			String regionName = region.get(0);
-			TreeNode regionNode = nodesMap.get(regionName);
-			if (regionNode == null) {
-				regionNode = new TreeNode(regionName);
-				nodesMap.put(regionName, regionNode);
-			}
-
-			if (rootNode == null) {
-				rootNode = regionNode;
-			}
-
-			TreeNode regionNeighbor1Node = buildRegionNode(nodesMap, region, 1);
-			regionNode.left = regionNeighbor1Node;
-
-			TreeNode regionNeighbor2Node = buildRegionNode(nodesMap, region, 2);
-			regionNode.right = regionNeighbor2Node;
-		}
-
-		return rootNode;
-	}
-
-	private TreeNode buildRegionNode(Map<String, TreeNode> nodesMap, List<String> regions, int index) {
-		TreeNode regionNode = null;
-		if (regions.size() > index) {
-			String regionName = regions.get(index);
-			regionNode = nodesMap.get(regionName);
-
-			if (regionNode == null) {
-				regionNode = new TreeNode(regionName);
-				nodesMap.put(regionName, regionNode);
-			}
-		}
-		return regionNode;
-	}
-
-	private static class TreeNode {
-		public String val;
-		public TreeNode left;
-		public TreeNode right;
-
-		TreeNode() {
-		}
-
-		TreeNode(String val) {
-			this.val = val;
-		}
-
-		TreeNode(String val, TreeNode left, TreeNode right) {
-			this.val = val;
-			this.left = left;
-			this.right = right;
-		}
-	}
 
 	/**
 	 * 

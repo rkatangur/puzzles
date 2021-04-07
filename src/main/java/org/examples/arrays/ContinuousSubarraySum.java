@@ -34,41 +34,26 @@ public class ContinuousSubarraySum {
 		System.out.println(solver.checkSubarraySum(new int[] { 0, 0 }, 0));
 	}
 
-	public boolean checkSubarraySum(int[] nums, int k) {
+	public boolean checkSubarraySumOptimized(int[] nums, int k) {
 		Map<Integer, Integer> sumsToIndex = new HashMap<>();
 		boolean isAvailable = false;
+
 		int workingSum = 0;
 		for (int i=0; i<nums.length; i++) {
 			workingSum += nums[i];
-			if(workingSum %k ==0) {
-				return true;
+			int rem = workingSum%k;
+			if(sumsToIndex.containsKey(rem)) {
+				
 			}
-			
-			sumsToIndex.put(workingSum, i);
-			
 		}
 		
 		return isAvailable;
 	}
-
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-//	public boolean checkSubarraySum(int[] nums, int sum) {
-//		
-//		return checkSubarraySum(nums, sum, 2);
-//	}
+	public boolean checkSubarraySum(int[] nums, int sum) {
+		
+		return checkSubarraySum(nums, sum, 2);
+	}
 
 	public boolean checkSubarraySum(int[] nums, int sum, int minSubArrSize) {
 
@@ -83,9 +68,10 @@ public class ContinuousSubarraySum {
 			int workingSum = curRunningSum;
 			int workingStartIdx = subArrStartIdx;
 			while ((subArrEndIdx - workingStartIdx + 1) >= 2) {
-				if (workingSum == sum || (sum != 0 && workingSum % sum == 0)) {
+				if (workingSum == sum || (sum !=0 && workingSum % sum == 0)) {
 					curMinSubArrSize = Math.min(curMinSubArrSize, subArrEndIdx - workingStartIdx + 1);
-					break;
+                    
+					return true;
 				}
 				workingSum -= nums[workingStartIdx++];
 			}
@@ -97,4 +83,6 @@ public class ContinuousSubarraySum {
 
 		return false;
 	}
+
+
 }

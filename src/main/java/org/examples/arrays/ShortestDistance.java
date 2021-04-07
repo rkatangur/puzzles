@@ -1,11 +1,6 @@
 package org.examples.arrays;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * 
@@ -40,77 +35,60 @@ public class ShortestDistance {
 
 	public static void main(String[] args) {
 		int[][] grid = new int[][] { { 1, 0, 2, 0, 1 }, { 0, 0, 0, 0, 0 }, { 0, 0, 1, 0, 0 } };
-
 		ShortestDistance solver = new ShortestDistance();
-		solver.shortestDistance(grid);
+		System.out.println(solver.shortestDistance(grid));
 	}
 
 	public int shortestDistance(int[][] grid) {
-		int shortestDistance = Integer.MAX_VALUE;
-		Set<Integer> buildingsPos = new HashSet<>();
-		int numOfColumns = grid[0].length;
+		int[][] dist = new int[grid.length][grid[0].length];
+		int numOfBuildings = 0;
+		int[][] moves = new int[][] { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
+		int[][] reach = new int[grid.length][grid[0].length];
+		LinkedList<int[]> queueOfPos = new LinkedList<int[]>();
 
-		for (int i = 0; i < grid.length; i++) {
-			for (int j = 0; j < grid[i].length; j++) {
+		for (int i = 0; i < dist.length; i++) {
+			for (int j = 0; j < dist[i].length; j++) {
 				if (grid[i][j] == 1) {
-					// check all positions.
-					int cord = i * numOfColumns + j;
-					buildingsPos.add(cord);
+
+					boolean[][] isVisited = new boolean[grid.length][grid[0].length];
+					numOfBuildings++;
+					queueOfPos.add(new int[] { i, j });
+					int level = 0;
+
+					while (!queueOfPos.isEmpty()) {
+						int qSize = queueOfPos.size();
+						level++;
+						for (int k = 0; k < qSize; k++) {
+							int[] posFromQ = queueOfPos.poll();
+							for (int[] move : moves) {
+								int rowPos = posFromQ[0] + move[0];
+								int colPos = posFromQ[1] + move[1];
+								if (rowPos >= 0 && rowPos < grid.length && colPos >= 0 && colPos < grid[0].length
+										&& grid[rowPos][colPos] == 0 && !isVisited[rowPos][colPos]) {
+									dist[rowPos][colPos] += level;
+									reach[rowPos][colPos]++;
+									isVisited[rowPos][colPos] = true;
+									queueOfPos.add(new int[] { rowPos, colPos });
+								}
+							}
+						}
+					}
 				}
 			}
 		}
 
-		LinkedList<Integer> queueOfInts = new LinkedList<Integer>();
-		for (int i = 0; i < grid.length; i++) {
-			for (int j = 0; j < grid[i].length; j++) {
-				if (grid[i][j] == 0) {
-					shortestDistanceHelper(grid, i, j, buildingsPos);
+		int shortestDist = Integer.MAX_VALUE;
+		for (int i = 0; i < dist.length; i++) {
+			for (int j = 0; j < dist[i].length; j++) {
+				if (grid[i][j] == 0 && reach[i][j] == numOfBuildings) {
+					shortestDist = Math.min(shortestDist, dist[i][j]);
 				}
 			}
 		}
 
-		return -1;
-	}
-
-	public int shortestDistanceHelper(int[][] grid, int rowPos, int colPos, Set<Integer> buildingsPos,
-			Map<Integer, List<Integer>> mapOfLengths) {
-		if (rowPos >= grid.length || rowPos < 0 || colPos >= grid[0].length || colPos < 0 || grid[rowPos][colPos] == 2
-				|| grid[rowPos][colPos] == -1) {
+		if (shortestDist == Integer.MAX_VALUE) {
 			return -1;
 		}
-		
-		int numOfColms = grid[0].length;
-		int cord = rowPos * numOfColms + colPos;
-
-		if (grid[rowPos][colPos] == 1) {
-			return 1;
-		}
-
-
-		grid[rowPos][colPos] = -1;
-
-		int result1 = shortestDistanceHelper(grid, rowPos + 1, colPos, buildingsPos, mapOfLengths);
-		if (result1 >= 1) {
-			mapOfLengths.get(cord).add(result1 + 1);
-		}
-
-		int result2 = shortestDistanceHelper(grid, rowPos - 1, colPos, buildingsPos, mapOfLengths);
-		if (result2 == 1) {
-			mapOfLengths.get(cord).add(result2 + 1);
-		}
-
-		int result3 = shortestDistanceHelper(grid, rowPos, colPos + 1, buildingsPos, mapOfLengths);
-		if (result3 == 1) {
-			mapOfLengths.get(cord).add(result3 + 1);
-		}
-
-		int result4 = shortestDistanceHelper(grid, rowPos, colPos - 1, buildingsPos, mapOfLengths);
-		if (result4 == 1) {
-			mapOfLengths.get(cord).add(result4 + 1);
-		}
-
-		grid[rowPos][colPos] = 0;
-		return 1;
+		return shortestDist;
 	}
-
 }

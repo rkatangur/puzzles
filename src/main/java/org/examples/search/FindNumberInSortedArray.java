@@ -1,4 +1,4 @@
-package org.examples.recursion;
+package org.examples.search;
 
 /*
  * To execute Java, please define "static void main" on a class

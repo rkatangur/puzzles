@@ -1,5 +1,9 @@
 package org.examples.arrays;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * 300. Longest Increasing Subsequence
  * 
@@ -28,27 +32,80 @@ public class LongestIncreasingSubsequence {
 
 	public static void main(String[] args) {
 		LongestIncreasingSubsequence solver = new LongestIncreasingSubsequence();
-		int[] nums = new int[] { 10, 9, 2, 5, 3, 7, 101, 18 };
-		System.out.println(solver.lengthOfLIS(nums));
+//		int[] nums = new int[] { 10, 9, 2, 5, 3, 7, 101, 18 };
+//
+////		0,3,1,6,2,2,7
+//		System.out.println(solver.lengthOfLIS(nums));
+		System.out.println(solver.lengthOfLIS(new int[] { 0, 3, 1, 6, 2, 2, 7 }));
 	}
 
 	public int lengthOfLIS(int[] nums) {
-		int[] dp = new int[nums.length];
-		dp[0] = 1;
-		
-		int maxLIS = 1;
-		for (int i = 0; i < nums.length; i++) {
-			int maxSubSeqLength = 1;
-			for (int j = 0; j < i; j++) {
-				if(nums[i] >nums[j]) {
-					maxSubSeqLength  = Math.max(maxSubSeqLength, dp[j] +1);
-				}
-			}
-			
-			dp[i] = maxSubSeqLength;			
-			maxLIS = Math.max(maxLIS, maxSubSeqLength); 
+		// int[][] memo = new int[nums.length + 1][nums.length];
+		int memo[][] = new int[nums.length + 1][nums.length];
+		for (int[] l : memo) {
+			Arrays.fill(l, -1);
+		}
+		return lengthOfLISHelperDP(nums, -1, 0, memo);
+	}
+
+	public int lengthOfLISHelperDP(int[] nums, int prevIndex, int curIndex, int[][] memo) {
+		if (curIndex >= nums.length) {
+			return 0;
 		}
 
-		return maxLIS;
+		if (memo[prevIndex + 1][curIndex] >= 0) {
+			return memo[prevIndex + 1][curIndex];
+		}
+
+		int taken = 0;
+		if (prevIndex < 0 || nums[curIndex] > nums[prevIndex]) {
+			taken = 1 + lengthOfLISHelperDP(nums, curIndex, curIndex + 1, memo);
+		}
+
+		int notTaken = lengthOfLISHelperDP(nums, prevIndex, curIndex + 1, memo);
+		memo[prevIndex + 1][curIndex] = Math.max(taken, notTaken);
+		return memo[prevIndex + 1][curIndex];
 	}
+
+	List<Integer> longestList = new ArrayList<Integer>();
+	List<List<Integer>> allPossibleLis = new ArrayList<List<Integer>>();
+
+	public void lengthOfLISHelper(int[] nums, int prevVal, int curIndex, List<Integer> lisElements) {
+		if (curIndex >= nums.length) {
+			List<Integer> newLis = new ArrayList<Integer>(lisElements);
+			allPossibleLis.add(newLis);
+			if (newLis.size() > longestList.size()) {
+				longestList = newLis;
+			}
+			return;
+		}
+
+		if (nums[curIndex] > prevVal) {
+			lisElements.add(nums[curIndex]);
+			lengthOfLISHelper(nums, nums[curIndex], curIndex + 1, lisElements);
+			lisElements.remove(lisElements.size() - 1);
+		}
+
+		lengthOfLISHelper(nums, prevVal, curIndex + 1, lisElements);
+	}
+
+//	public int lengthOfLIS(int[] nums) {
+//		int[] dp = new int[nums.length];
+//		dp[0] = 1;
+//		
+//		int maxLIS = 1;
+//		for (int i = 0; i < nums.length; i++) {
+//			int maxSubSeqLength = 1;
+//			for (int j = 0; j < i; j++) {
+//				if(nums[i] >nums[j]) {
+//					maxSubSeqLength  = Math.max(maxSubSeqLength, dp[j] +1);
+//				}
+//			}
+//			
+//			dp[i] = maxSubSeqLength;			
+//			maxLIS = Math.max(maxLIS, maxSubSeqLength); 
+//		}
+//
+//		return maxLIS;
+//	}
 }

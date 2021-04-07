@@ -6,10 +6,10 @@ package org.examples.search;
  * @author rkata
  *
  */
-public class SearchInSortedArray {
+public class SearchInSortedandRotatedArray {
 
 	public static void main(String[] args) {
-		SearchInSortedArray solver = new SearchInSortedArray();
+		SearchInSortedandRotatedArray solver = new SearchInSortedandRotatedArray();
 		System.out.println(solver.search(new int[] { 4, 5, 6, 7, 0, 1, 2 }, 0));
 		System.out.println(solver.search(new int[] { 6, 7, 0, 1, 2, 4, 5 }, 0));
 		System.out.println(solver.search(new int[] { 2, 4, 5, 6, 7, 0, 1 }, 0));
@@ -27,6 +27,7 @@ public class SearchInSortedArray {
 				right = mid;
 			}
 		}
+		
 		System.out.println("mid " + mid + ", start " + left + ", endIndex " + right);
 
 		int start = left;

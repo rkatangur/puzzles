@@ -15,7 +15,7 @@ public class LevelOrderBST {
 		while (nodesToProcess.size() > 0) {
 
 			int numOfNodesToProcess = nodesToProcess.size();
-			if (allNodes.get(level) == null) {
+			if (allNodes.size() <= level) {
 				allNodes.add(level, new ArrayList<Integer>());
 			}
 
@@ -24,12 +24,10 @@ public class LevelOrderBST {
 				allNodes.get(level).add(node.val);
 
 				if (node.left != null) {
-					System.out.println("Recording node.left: " + node.left.val);
 					nodesToProcess.add(node.left);
 				}
 
 				if (node.right != null) {
-					System.out.println("Recording node.right: " + node.right.val);
 					nodesToProcess.add(node.right);
 				}
 			}

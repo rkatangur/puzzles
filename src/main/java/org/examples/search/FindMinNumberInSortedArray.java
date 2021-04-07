@@ -1,4 +1,4 @@
-package org.examples.recursion;
+package org.examples.search;
 
 /**
  * 
@@ -48,42 +48,5 @@ public class FindMinNumberInSortedArray {
 		return nums[startPos];
 	}
 
-//
-//	public int findMin(int[] nums) {
-//		return findMin(nums, 0, nums.length - 1, Integer.MAX_VALUE);
-//	}
-//
-//	public int findMin(int[] nums, int startPos, int endPos, int curMin) {
-//
-//		if (startPos > endPos) {
-//			return curMin;
-//		}
-//
-//		int mid = (startPos + endPos) / 2;
-//
-//		// this is the sorted side
-//		if (curMin > nums[mid]) {
-//			curMin = nums[mid];
-//		}
-//		
-//		if (nums[mid] >= nums[startPos]) {
-//			if(nums[mid] >= nums[endPos]) {
-//				// check the unsorted side.
-//				return findMin(nums, mid + 1, endPos, curMin);
-//			} else {
-//				// check the sorted array
-//				return findMin(nums, startPos, mid - 1, curMin);
-//			}
-//		} else {
-//			//mid<startPos
-//			if(nums[mid]<=nums[endPos]) {
-//				// check the unsorted side.
-//				return findMin(nums, startPos, mid -1, curMin);
-//			} else {
-//				// check the sorted array
-//				return findMin(nums, mid + 1, endPos, curMin);
-//			}
-//		}
-//	}
 
 }
