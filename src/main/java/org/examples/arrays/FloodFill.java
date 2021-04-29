@@ -51,14 +51,15 @@ public class FloodFill {
 
 	public int[][] floodFill(int[][] image, int sr, int sc, int newColor) {
 		int startingPixel = image[sr][sc];
-		floodFillRecHelper(image, sr, sc, newColor, startingPixel);
-		for (int i = 0; i < image.length; i++) {
-			for (int j = 0; j < image[0].length; j++) {
-				if (image[i][j] == (newColor * -1)) {
-					image[i][j] = newColor;
-				}
-			}
-		}
+		if (startingPixel != newColor)
+			floodFillRecHelper(image, sr, sc, newColor, startingPixel);
+		// for (int i = 0; i < image.length; i++) {
+		// for (int j = 0; j < image[0].length; j++) {
+		// if (image[i][j] == (newColor * -1)) {
+		// image[i][j] = newColor;
+		// }
+		// }
+		// }
 		return image;
 	}
 
@@ -69,8 +70,8 @@ public class FloodFill {
 		}
 
 		if (image[sr][sc] == startingPixel) {
-			image[sr][sc] = newColor * -1;
-
+			// image[sr][sc] = newColor * -1;
+			image[sr][sc] = newColor;
 			floodFillRecHelper(image, sr + 1, sc, newColor, startingPixel);
 			floodFillRecHelper(image, sr - 1, sc, newColor, startingPixel);
 			floodFillRecHelper(image, sr, sc + 1, newColor, startingPixel);

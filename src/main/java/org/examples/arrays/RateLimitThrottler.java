@@ -50,6 +50,7 @@ public class RateLimitThrottler {
 		if (!custReqs.isEmpty()) {
 			creditsAvailable = numOfReqsAllowed - custReqs.size();
 		}
+		
 		boolean isNewWindow = false;
 		while (!custReqs.isEmpty()) {
 			firstReqTime = custReqs.peek();

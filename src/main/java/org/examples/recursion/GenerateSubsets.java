@@ -31,6 +31,33 @@ public class GenerateSubsets {
 		solver.subsets(new int[] { 1, 2, 3 });
 	}
 
+	public List<List<Integer>> subsetsV2(int[] nums) {
+		List<List<Integer>> results = new ArrayList<List<Integer>>();
+		results.add(new ArrayList<Integer>());
+		for (int i = 1; i <= nums.length; i++) {
+			int[] subset = new int[i];
+			subsetsV2Helper(nums, 0, results, subset, 0);
+		}
+		return results;
+	}
+
+	public void subsetsV2Helper(int[] nums, int numIndex, List<List<Integer>> results, int[] subset, int subsetIndex) {
+
+		if (subsetIndex >= subset.length) {
+			List<Integer> subsetElems = new ArrayList<Integer>();
+			for (int subsetElem : subset) {
+				subsetElems.add(subsetElem);
+			}
+			results.add(subsetElems);
+			return;
+		}
+
+		for (int i = numIndex; i < nums.length; i++) {
+			subset[subsetIndex++] = nums[i];
+			subsetsV2Helper(nums, i + 1, results, subset, subsetIndex);
+		}
+	}
+
 	public List<List<Integer>> subsets(int[] nums) {
 		List<List<Integer>> resList = new ArrayList<List<Integer>>();
 		resList.add(new ArrayList<Integer>());

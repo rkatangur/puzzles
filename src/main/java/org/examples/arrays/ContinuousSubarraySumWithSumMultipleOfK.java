@@ -22,10 +22,10 @@ import java.util.Map;
  * @author rkata
  *
  */
-public class ContinuousSubarraySum {
+public class ContinuousSubarraySumWithSumMultipleOfK {
 
 	public static void main(String[] args) {
-		ContinuousSubarraySum solver = new ContinuousSubarraySum();
+		ContinuousSubarraySumWithSumMultipleOfK solver = new ContinuousSubarraySumWithSumMultipleOfK();
 //		System.out.println(solver.checkSubarraySum(new int[] { 23, 2, 4, 6, 7 }, 6));
 //		System.out.println(solver.checkSubarraySum(new int[] { 23, 2, 6, 4, 7 }, 6));
 //		
@@ -36,22 +36,26 @@ public class ContinuousSubarraySum {
 
 	public boolean checkSubarraySumOptimized(int[] nums, int k) {
 		Map<Integer, Integer> sumsToIndex = new HashMap<>();
-		boolean isAvailable = false;
+		sumsToIndex.put(0, -1);
 
 		int workingSum = 0;
-		for (int i=0; i<nums.length; i++) {
+		for (int i = 0; i < nums.length; i++) {
 			workingSum += nums[i];
-			int rem = workingSum%k;
-			if(sumsToIndex.containsKey(rem)) {
-				
+			int rem = workingSum % k;
+			if (sumsToIndex.containsKey(rem)) {
+				if ((i - sumsToIndex.get(rem)) > 1) {
+					return true;
+				}
+			} else {
+				sumsToIndex.put(rem, i);
 			}
 		}
-		
-		return isAvailable;
+
+		return false;
 	}
-	
+
 	public boolean checkSubarraySum(int[] nums, int sum) {
-		
+
 		return checkSubarraySum(nums, sum, 2);
 	}
 
@@ -68,9 +72,9 @@ public class ContinuousSubarraySum {
 			int workingSum = curRunningSum;
 			int workingStartIdx = subArrStartIdx;
 			while ((subArrEndIdx - workingStartIdx + 1) >= 2) {
-				if (workingSum == sum || (sum !=0 && workingSum % sum == 0)) {
+				if (workingSum == sum || (sum != 0 && workingSum % sum == 0)) {
 					curMinSubArrSize = Math.min(curMinSubArrSize, subArrEndIdx - workingStartIdx + 1);
-                    
+
 					return true;
 				}
 				workingSum -= nums[workingStartIdx++];
@@ -83,6 +87,5 @@ public class ContinuousSubarraySum {
 
 		return false;
 	}
-
 
 }

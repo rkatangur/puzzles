@@ -20,7 +20,7 @@ package org.examples.tree;
 public class ConvertBSTToSortedDoublyLinkedList {
 
 	Node first = null;
-	Node last = null;
+	Node prevAndlast = null;
 
 	public Node treeToDoublyList(Node root) {
 		if (root == null)
@@ -28,8 +28,8 @@ public class ConvertBSTToSortedDoublyLinkedList {
 
 		treeToDoublyListHelper(root);
 		// cloe DLL
-		first.left = last;
-		last.right = first;
+		first.left = prevAndlast;
+		prevAndlast.right = first;
 
 		return first;
 	}
@@ -41,14 +41,14 @@ public class ConvertBSTToSortedDoublyLinkedList {
 
 		treeToDoublyListHelper(root.left);
 
-		if (last != null) {
-			last.right = root;
-			root.left = last;
+		if (prevAndlast != null) {
+			prevAndlast.right = root;
+			root.left = prevAndlast;
 		} else {
 			first = root;
 		}
 
-		last = root;
+		prevAndlast = root;
 
 		treeToDoublyListHelper(root.right);
 	}

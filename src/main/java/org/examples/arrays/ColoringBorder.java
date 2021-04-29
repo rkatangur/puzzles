@@ -2,6 +2,8 @@ package org.examples.arrays;
 
 /**
  * 
+ * 1034. Coloring A Border
+ * 
  * Given a 2-dimensional grid of integers, each value in the grid represents the
  * color of the grid square at that location.
  * 
